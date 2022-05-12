@@ -1,0 +1,5 @@
+<div *ngLet="{counter: test$|async} as test;">
+	{{test?.counter}}
+</div>
+<p>page-one works!</p>
+<button mat-button (click)="openDialog()">open modal</button>
