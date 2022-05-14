@@ -17,12 +17,13 @@ import {
     SharedSpinnerComponent,
     SharedSpinnerDirective
 } from "./components";
+import {LoaderComponent} from './components/loader/loader.component';
 
 /**
  * Pipes
  */
 import {DefaultPipe} from "./pipes/default";
-import { EntityCallStateDirective } from './directives/entity-call-state.directive';
+import {EntityCallStateDirective} from './directives/entity-call-state.directive';
 
 const COMPONENTS: any[] = [
     RouteLoadingComponent,
@@ -30,6 +31,7 @@ const COMPONENTS: any[] = [
     SharedSpinnerComponent,
     ErrorComponent,
     CitiesTypeaheadComponent,
+    LoaderComponent,
 ];
 const DIRECTIVES: any[] = [
     SharedSpinnerDirective,

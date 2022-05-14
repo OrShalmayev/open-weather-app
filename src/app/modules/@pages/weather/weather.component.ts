@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable, Subject} from "rxjs";
 import {Store} from "@ngrx/store";
-import {selectEntities} from '../../../state/selected-cities/selected-cities.selectors';
-import {selectedCitiesActions} from "../../../state/selected-cities";
-import {CityWeather} from "./models";
+import {selectEntitiesToArray} from '../../../state/selected-cities/selected-cities.selectors';
+import {map, takeUntil, tap, toArray} from "rxjs/operators";
 
 @Component({
     selector: 'app-weather',
@@ -20,15 +19,10 @@ export class WeatherComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.selectedCities$ = this.store.select(selectEntities);
-    }
-
-    update(entity: any) {
-        this.store.dispatch(selectedCitiesActions.update({entity}));
-    }
-
-    remove(entity: any) {
-        this.store.dispatch(selectedCitiesActions.remove({entity}));
+        this.selectedCities$ = this.store.select(selectEntitiesToArray)
+            .pipe(
+                takeUntil(this.destroyed$)
+            );
     }
 
     ngOnDestroy() {
