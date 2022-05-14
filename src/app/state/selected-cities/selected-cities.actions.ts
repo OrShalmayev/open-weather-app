@@ -7,6 +7,10 @@ const [load, success, failed, clear] = createHTTPActions<{ query: string },
     { entity: CityWeather },
     { errorMsg: string }>(`[${EFeatures.SelectedCities}] Load`);
 
+const [byGeo, byGeoSuccess, byGeoFailed] = createHTTPActions<{ latitude:number, longitude:number },
+    { entity: CityWeather },
+    { errorMsg: string }>(`[${EFeatures.SelectedCities}] Load By GEO`);
+
 const [update, updateSuccess, updateFailed] = createHTTPActions<{ entity: CityWeather },
     { entity: CityWeather },
     { errorMsg: string }>(`[${EFeatures.SelectedCities}] Update`);
@@ -21,6 +25,10 @@ export const selectedCitiesActions = {
     success,
     failed,
     clear,
+    // LOAD by geo
+    byGeo,
+    byGeoSuccess,
+    byGeoFailed,
     // UPDATE
     update,
     updateSuccess,

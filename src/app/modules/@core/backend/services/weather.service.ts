@@ -22,6 +22,14 @@ export class WeatherService {
             .pipe(map(response => responseToCityWeather(response, ELoadingState.INIT)));
     }
 
+    getByGeo(data: { latitude:number, longitude:number }) {
+        const {latitude, longitude} = data;
+        const params = new HttpParams({fromObject: {lat: latitude, lon: longitude}});
+
+        return this.doGet({params})
+            .pipe(map(response => responseToCityWeather(response, ELoadingState.INIT)));
+    }
+
     private doGet<T>(data: { url?: string, params?: HttpParams }): Observable<T> {
         const url = data?.url || '';
         let params = data?.params || new HttpParams();

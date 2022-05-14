@@ -1,0 +1,16 @@
+<div class="card">
+	<div class="card-body">
+
+		<h2>{{ cityName }}</h2>
+
+		<detailed-weather
+			[weather]="cityWeather.weather"
+		></detailed-weather>
+
+		<div class="card-actions">
+			<button mat-button (click)="remove(cityWeather)">Remove</button>
+			<button mat-button (click)="update(cityWeather)">update</button>
+		</div>
+
+	</div>
+</div>

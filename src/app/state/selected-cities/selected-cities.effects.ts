@@ -33,6 +33,20 @@ export class SelectedCitiesEffects {
         ),
     );
 
+    loadCurrentWeatherByGeo$ = createEffect(() => this.actions$
+        .pipe(
+            ofType(selectedCitiesActions.byGeo),
+            mergeMap(({payload: {latitude, longitude}}) => {
+                return this.weatherService.getByGeo({longitude, latitude});
+            }),
+            catchError((err: HttpErrorResponse, caught$) => {
+                this.store.dispatch(selectedCitiesActions.failed({errorMsg: err.message}));
+                return EMPTY;
+            }),
+            map((entity: CityWeather) => selectedCitiesActions.success({entity})),
+        ),
+    );
+
     updateCurrentWeather$ = createEffect(() => this.actions$
         .pipe(
             ofType(selectedCitiesActions.update),

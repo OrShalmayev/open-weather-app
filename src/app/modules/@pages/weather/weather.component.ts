@@ -3,6 +3,7 @@ import {Observable, Subject} from "rxjs";
 import {Store} from "@ngrx/store";
 import {selectEntitiesToArray} from '../../../state/selected-cities/selected-cities.selectors';
 import {map, takeUntil, tap, toArray} from "rxjs/operators";
+import {selectedCitiesActions} from "../../../state/selected-cities";
 
 @Component({
     selector: 'app-weather',
@@ -19,6 +20,12 @@ export class WeatherComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        navigator.geolocation.getCurrentPosition((position) => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            this.store.dispatch(selectedCitiesActions.byGeo({ latitude, longitude }));
+        });
+
         this.selectedCities$ = this.store.select(selectEntitiesToArray)
             .pipe(
                 takeUntil(this.destroyed$)
