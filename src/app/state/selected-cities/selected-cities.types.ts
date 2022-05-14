@@ -3,7 +3,9 @@ import {ELoadingState, TCallState} from "../../modules/@core/utility/state-manag
 import {createEntityAdapter, EntityState} from "@ngrx/entity";
 import {CityWeather} from "../../modules/@pages/weather/models";
 
-export const selectedCityAdapter = createEntityAdapter<CityWeather>();
+export const selectedCityAdapter = createEntityAdapter<CityWeather>({
+    selectId: (model) => model.city.id
+});
 
 export interface ISelectedCityState extends EntityState<CityWeather>{
     callState: TCallState,

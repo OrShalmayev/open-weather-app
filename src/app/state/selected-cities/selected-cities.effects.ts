@@ -32,4 +32,21 @@ export class SelectedCitiesEffects {
             map((entity: CityWeather) => selectedCitiesActions.success({entity})),
         ),
     );
+
+    updateCurrentWeather$ = createEffect(() => this.actions$
+        .pipe(
+            ofType(selectedCitiesActions.update),
+            mergeMap(({payload: query}) => {
+                const {entity: {city: {name}}} = query;
+                return this.weatherService.getCityWeatherByQuery({query: name});
+            }),
+            catchError((err: HttpErrorResponse, caught$) => {
+                this.store.dispatch(selectedCitiesActions.updateFailed({errorMsg: err.message}));
+                return EMPTY;
+            }),
+            map((entity: CityWeather) => {
+                return selectedCitiesActions.updateSuccess({entity});
+            }),
+        ),
+    );
 }

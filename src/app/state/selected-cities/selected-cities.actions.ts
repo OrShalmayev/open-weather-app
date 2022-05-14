@@ -7,9 +7,26 @@ const [load, success, failed, clear] = createHTTPActions<{ query: string },
     { entity: CityWeather },
     { errorMsg: string }>(`[${EFeatures.SelectedCities}] Load`);
 
+const [update, updateSuccess, updateFailed] = createHTTPActions<{ entity: CityWeather },
+    { entity: CityWeather },
+    { errorMsg: string }>(`[${EFeatures.SelectedCities}] Update`);
+
+const [remove, removeSuccess, removeFailed] = createHTTPActions<{ entity: CityWeather },
+    { entity: CityWeather },
+    { errorMsg: string }>(`[${EFeatures.SelectedCities}] Remove`);
+
 export const selectedCitiesActions = {
+    // LOAD
     load,
     success,
     failed,
     clear,
+    // UPDATE
+    update,
+    updateSuccess,
+    updateFailed,
+    // REMOVE
+    remove,
+    removeSuccess,
+    removeFailed,
 };

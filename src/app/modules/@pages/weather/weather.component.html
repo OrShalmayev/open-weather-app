@@ -1,6 +1,11 @@
 <shared-cities-typeahead></shared-cities-typeahead>
+
 <ng-container *ngFor="let selectedCity of (selectedCities$ | async | keyvalue) ">
-	{{selectedCity|json}}
-	<button>delete</button>
-	<button>update</button>
+	<ng-container [entityCallState]="selectedCity.value" #state="callState"></ng-container>
+	<ng-container *ngIf="state?.state?.loading; else notLoading">Loading</ng-container>
+	<ng-template #notLoading>
+		{{selectedCity|json}}
+		<button (click)="remove(selectedCity.value)">Remove</button>
+		<button (click)="update(selectedCity.value)">update</button>
+	</ng-template>
 </ng-container>

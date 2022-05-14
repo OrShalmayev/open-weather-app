@@ -1,4 +1,4 @@
-import {ELoadingState, TCallState} from "../../../@core/utility/state-management.helper";
+import {TCallState} from "../../../@core/utility/state-management.helper";
 
 export interface CityWeather {
     city: City;

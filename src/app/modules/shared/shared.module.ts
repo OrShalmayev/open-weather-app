@@ -22,6 +22,7 @@ import {
  * Pipes
  */
 import {DefaultPipe} from "./pipes/default";
+import { EntityCallStateDirective } from './directives/entity-call-state.directive';
 
 const COMPONENTS: any[] = [
     RouteLoadingComponent,
@@ -32,6 +33,7 @@ const COMPONENTS: any[] = [
 ];
 const DIRECTIVES: any[] = [
     SharedSpinnerDirective,
+    EntityCallStateDirective,
 ];
 const PIPES: any[] = [
     DefaultPipe,
@@ -40,7 +42,7 @@ const MODULES: any[] = [CommonModule, FormsModule, ReactiveFormsModule, AllMater
 const EXPORTS: any[] = [];
 
 @NgModule({
-    declarations: [...COMPONENTS, ...DIRECTIVES, ...PIPES, ErrorComponent],
+    declarations: [...COMPONENTS, ...DIRECTIVES, ...PIPES],
     imports: [...MODULES, ...EXPORTS],
     exports: [...MODULES, ...COMPONENTS, ...PIPES, ...DIRECTIVES, ...EXPORTS],
 })

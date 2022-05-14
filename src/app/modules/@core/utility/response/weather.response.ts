@@ -1,21 +1,23 @@
-import { CityWeather, CityDailyWeather } from '../models/weather.model';
+import {CityDailyWeather, CityWeather} from "../../../@pages/weather/models";
+import {TCallState} from "../state-management.helper";
 
-export function toCityWeather(response: any): CityWeather {
+export function responseToCityWeather(response: any, callState: TCallState): CityWeather {
   return {
+    callState: callState,
     city: {
       id: response.id,
       name: response.name,
       country: response.sys.country,
       coord: response.coord,
-      timeZone: undefined,
+      timeZone: '',
     },
     weather: {
       id: response.weather[0].id,
       description: response.weather[0].description,
       icon: response.weather[0].icon,
       temp: response.main.temp,
-      minTemp: undefined,
-      maxTemp: undefined,
+      minTemp: 0,
+      maxTemp: 0,
       feelsLike: response.main.feels_like,
       humidity: response.main.humidity,
       wind: {
@@ -25,51 +27,5 @@ export function toCityWeather(response: any): CityWeather {
       sunrise: response.sys.sunrise,
       sunset: response.sys.sunset,
     },
-  }
-}
-
-export function toCityDailyWeather(response: any): CityDailyWeather {
-  return {
-    city: {
-      id: undefined,
-      name: undefined,
-      country: undefined,
-      coord: undefined,
-      timeZone: response.timezone,
-    },
-    current: {
-      id: response.current.weather[0].id,
-      description: response.current.weather[0].description,
-      icon: response.current.weather[0].icon,
-      temp: response.current.temp,
-      minTemp: undefined,
-      maxTemp: undefined,
-      feelsLike: response.current.feels_like,
-      humidity: response.current.humidity,
-      wind: {
-        speed: response.current.wind_speed,
-        deg: response.current.wind_deg,
-      },
-      sunset: response.current.sunset,
-      sunrise: response.current.sunrise,
-    },
-    daily: response.daily.map(d => ({
-      date: d.dt,
-      weather: {
-        id: d.weather[0].id,
-        description: d.weather[0].description,
-        icon: d.weather[0].icon,
-        temp: undefined,
-        minTemp: d.temp.min,
-        maxTemp: d.temp.max,
-        humidity: d.humidity,
-        wind: {
-          speed: d.wind_speed,
-          deg: d.wind_deg,
-        },
-        sunset: d.sunset,
-        sunrise: d.sunrise,
-      }
-    })),
   }
 }
