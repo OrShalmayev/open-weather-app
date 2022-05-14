@@ -9,6 +9,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
  * Components
  */
 import {AppComponent} from './app.component';
+import {StateModule} from "./state/state.module";
+import {HttpClientModule} from "@angular/common/http";
 
 /**
  * Tokens
@@ -21,6 +23,8 @@ import {AppComponent} from './app.component';
     imports: [
         BrowserAnimationsModule,
         AppRoutingModule,
+        HttpClientModule,
+        StateModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

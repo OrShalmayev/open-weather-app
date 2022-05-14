@@ -2,13 +2,12 @@ import { HttpParams } from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpService } from '../api';
+import {EApiControllers} from "../../enums";
 
 @Injectable({
     providedIn: 'root'
 })
-export class AccountService {
-    private readonly controllerApi:string = "weather";
-
+export class WeatherService {
     constructor(private httpService:HttpService) { }
 
     getCityWeatherByName(data:{query:string}):Observable<any> {
@@ -22,6 +21,6 @@ export class AccountService {
         const url = data?.url || '';
         const params = data?.params || new HttpParams();
         
-        return this.httpService.get({endpoint:`${this.controllerApi}${ url }`, params});
+        return this.httpService.get({endpoint:`${EApiControllers.weather}${ url }`, params});
     }
 }

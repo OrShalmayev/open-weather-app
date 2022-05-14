@@ -20,15 +20,15 @@ import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
-export const BASIC_MAT_MODULES:any[] = [
+export const BASIC_MAT_MODULES: any[] = [
     MatButtonModule,
     MatInputModule,
     MatSelectModule,
     MatRadioModule,
     MatFormFieldModule,
 ];
-export const MAT_MODULES:any[] = [
-    BASIC_MAT_MODULES,
+export const MAT_MODULES: any[] = [
+    ...BASIC_MAT_MODULES,
     MatToolbarModule,
     MatMenuModule,
     MatSidenavModule,
@@ -47,11 +47,13 @@ export const MAT_MODULES:any[] = [
     imports: [CommonModule, ...MAT_MODULES],
     exports: [MAT_MODULES],
 })
-export class AllMaterialModule {}
+export class AllMaterialModule {
+}
 
 @NgModule({
     declarations: [],
     imports: [CommonModule, ...BASIC_MAT_MODULES],
     exports: [BASIC_MAT_MODULES],
 })
-export class BasicMaterialModule {}
+export class BasicMaterialModule {
+}

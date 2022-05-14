@@ -1,7 +1,8 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { ICitiesState } from '..';
-export const cityStoreName: "city" = "city";
-export const selectCityState = createFeatureSelector<ICitiesState>(cityStoreName);
+import {ICitiesState} from "./cities.types";
+import {EFeatures} from "../../modules/@core/enums/features.enum";
+
+export const selectCityState = createFeatureSelector<ICitiesState>(EFeatures.Cities);
 
 export const selectCitiesState = createSelector(
     selectCityState,
@@ -10,5 +11,5 @@ export const selectCitiesState = createSelector(
 
 export const selectCitiesList = createSelector(
     selectCityState,
-    (citiesState: ICitiesState) => citiesState?.list,
+    (citiesState: ICitiesState) => citiesState?.cities,
 );

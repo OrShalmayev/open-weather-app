@@ -42,6 +42,7 @@
     "@angular/cli": "~12.2.1",
     "@angular/compiler-cli": "~12.2.0",
     "@types/jasmine": "~3.8.0",
+    "@types/js-search": "^1.4.0",
     "@types/lodash": "^4.14.182",
     "@types/node": "^12.11.1",
     "jasmine-core": "~3.8.0",

@@ -14,12 +14,6 @@ const routes: Routes = [
         ]
     },
     {
-        path: 'preload-NGRX',
-        data: {preload: true, loadAfterSeconds: 0},
-        loadChildren: () => import('./state/state.module').then(m => m.StateModule),
-        redirectTo: ''
-    },
-    {
         path: 'preload-basic-material-modules',
         data: {preload: true, loadAfterSeconds: 0},
         loadChildren: () => import('./modules/material/material.module').then(m => m.BasicMaterialModule),

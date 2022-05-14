@@ -1,3 +1,3 @@
 export enum EApiControllers {
-    Account = 'account'
+    weather = 'weather'
 }

@@ -1,11 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {Subject} from "rxjs";
-import {FormControl} from "@angular/forms";
+import {Observable, Subject} from "rxjs";
+import {FormControl, Validators} from "@angular/forms";
 import {debounceTime, distinctUntilChanged, takeUntil} from "rxjs/operators";
 import {Store} from "@ngrx/store";
+import {citiesActions} from "../../../../state/cities/cities.actions";
+import {TCityTypeaheadItems} from "./models";
+import * as fromCitiesSelectors from '../../../../state/cities/cities.selectors';
+import {onlyEnglishAndSpaceValidator} from "../../../@core/utility/validators";
 
 @Component({
-    selector: 'app-cities-typeahead',
+    selector: 'shared-cities-typeahead',
     template: `
 		<div class="search-container mb-3">
 
@@ -19,10 +23,11 @@ import {Store} from "@ngrx/store";
 				>
 				<mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
 					<mat-option
-						*ngFor="let city of cities" [value]="city?.LocalizedName"
-						(click)="doSearch()"
+						*ngFor="let city of (cities$|async)" [value]="city?.name"
 					>
-						{{ city?.LocalizedName }}
+						<!--						(click)="doSearch()"-->
+
+						{{ city.name }}, {{city?.country}}
 					</mat-option>
 				</mat-autocomplete>
 				<app-error [HTMLType]="'MATERIAL'" [controlName]="searchControlWithAutocomplete"></app-error>
@@ -32,8 +37,9 @@ import {Store} from "@ngrx/store";
     styles: []
 })
 export class CitiesTypeaheadComponent implements OnInit {
-    destroyed$: Subject<void> = new Subject<void>();
+    private destroyed$: Subject<void> = new Subject<void>();
     searchControlWithAutocomplete!: FormControl;
+    cities$!: Observable<TCityTypeaheadItems>;
 
     constructor(
         private store: Store
@@ -43,7 +49,10 @@ export class CitiesTypeaheadComponent implements OnInit {
     ngOnInit(): void {
         this.initializeControl();
         this.handleValueChange();
+
+        this.cities$ = this.store.select(fromCitiesSelectors.selectCitiesList);
     }
+
 
     private initializeControl() {
         this.searchControlWithAutocomplete = new FormControl(undefined, [Validators.required, Validators.min(3), onlyEnglishAndSpaceValidator()]);
@@ -61,9 +70,7 @@ export class CitiesTypeaheadComponent implements OnInit {
                     return;
                 }
 
-                if (query?.length > 2) {
-                    this.store.dispatch(fromCitiesAction.loadCities({query}));
-                }
+                this.store.dispatch(citiesActions.load({query}));
             });
     }
 

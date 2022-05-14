@@ -5,10 +5,11 @@ import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 import {environment} from "../../environments/environment";
 import {StoreRouterConnectingModule} from "@ngrx/router-store";
 import {CustomSerializer} from "./router/custome-serializer";
+import {CityEffect} from "./cities";
 
 export const NGRX_MODULES:any[] = [
     StoreModule.forRoot(appReducer),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([CityEffect]),
     StoreDevtoolsModule.instrument({
         maxAge: 25,
         logOnly: environment.production,

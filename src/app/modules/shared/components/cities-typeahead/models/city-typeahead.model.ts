@@ -4,3 +4,4 @@ export interface ICityTypeaheadItem {
     name: string;
     subcountry: string;
 }
+export type TCityTypeaheadItems = ICityTypeaheadItem[];
