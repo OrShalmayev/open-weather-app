@@ -1,6 +1,4 @@
 <shared-cities-typeahead></shared-cities-typeahead>
-<shared-loader></shared-loader>
-
 <ng-container *ngFor="let cityWeather of (selectedCities$ | async) ">
 	<ng-container [entityCallState]="cityWeather.value" #state="callState"></ng-container>
 	<ng-container *ngIf="state?.state?.loading; else notLoading">

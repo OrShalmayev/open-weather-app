@@ -13,7 +13,7 @@ import {selectedCitiesActions} from "../../../../state/selected-cities";
     selector: 'shared-cities-typeahead',
     template: `
 		<div class="search-container mb-3">
-			<mat-form-field appearance="fill">
+			<mat-form-field class="search" appearance="fill">
 				<mat-label>Search city</mat-label>
 				<input
 					type="text"
@@ -34,7 +34,20 @@ import {selectedCitiesActions} from "../../../../state/selected-cities";
 			<app-error [HTMLType]="'MATERIAL'" [controlName]="searchControlWithAutocomplete"></app-error>
 		</div>
     `,
-    styles: []
+    styles: [`
+        :host {
+            width: 100%;
+        }
+
+        .search-container {
+            max-width: 20rem;
+            margin: 0 auto;
+        }
+
+        .search {
+            width: 100%;
+        }
+    `]
 })
 export class CitiesTypeaheadComponent implements OnInit {
     private destroyed$: Subject<void> = new Subject<void>();

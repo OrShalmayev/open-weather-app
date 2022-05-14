@@ -20,16 +20,20 @@ export class WeatherComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        navigator.geolocation.getCurrentPosition((position) => {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            this.store.dispatch(selectedCitiesActions.byGeo({ latitude, longitude }));
-        });
+        this.handleGetByGeo();
 
         this.selectedCities$ = this.store.select(selectEntitiesToArray)
             .pipe(
                 takeUntil(this.destroyed$)
             );
+    }
+
+    handleGetByGeo() {
+        navigator.geolocation.getCurrentPosition((position) => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            this.store.dispatch(selectedCitiesActions.byGeo({latitude, longitude}));
+        });
     }
 
     ngOnDestroy() {

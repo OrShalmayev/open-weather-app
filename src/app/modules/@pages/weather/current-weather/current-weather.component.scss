@@ -1,0 +1,17 @@
+:host {
+	--w       : 55rem;
+	max-width : var(--w);
+	width     : var(--w);
+
+	&:not(:last-of-type) {
+		margin-bottom : 1rem;
+	}
+}
+
+.card {
+	&-actions {
+		& > *:not(:last-child) {
+			margin-inline-end: 1rem;
+		}
+	}
+}

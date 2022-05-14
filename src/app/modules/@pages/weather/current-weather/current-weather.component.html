@@ -7,9 +7,9 @@
 			[weather]="cityWeather.weather"
 		></detailed-weather>
 
-		<div class="card-actions">
-			<button mat-button (click)="remove(cityWeather)">Remove</button>
-			<button mat-button (click)="update(cityWeather)">update</button>
+		<div class="card-actions mt-5">
+			<button mat-stroked-button color="warn" (click)="remove(cityWeather)">Remove</button>
+			<button mat-stroked-button color="primary" (click)="update(cityWeather)">Update</button>
 		</div>
 
 	</div>
