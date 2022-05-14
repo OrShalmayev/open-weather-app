@@ -31,6 +31,8 @@ import {selectedCitiesActions} from "../../../../state/selected-cities";
 					</mat-option>
 				</mat-autocomplete>
 			</mat-form-field>
+            
+            <shared-loader *ngIf="loadingCities$|async"></shared-loader>
 			<app-error [HTMLType]="'MATERIAL'" [controlName]="searchControlWithAutocomplete"></app-error>
 		</div>
     `,
@@ -53,6 +55,7 @@ export class CitiesTypeaheadComponent implements OnInit {
     private destroyed$: Subject<void> = new Subject<void>();
     searchControlWithAutocomplete!: FormControl;
     cities$!: Observable<TCityItems>;
+    loadingCities$!: Observable<boolean>;
 
     constructor(
         private store: Store
@@ -75,6 +78,8 @@ export class CitiesTypeaheadComponent implements OnInit {
                 }),
                 takeUntil(this.destroyed$)
             );
+
+        this.loadingCities$ = this.store.select(fromCitiesSelectors.selectCitiesLoading).pipe(takeUntil(this.destroyed$));
     }
 
     doSearch(city: ICityItem) {

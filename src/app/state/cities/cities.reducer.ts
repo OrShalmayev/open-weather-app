@@ -18,7 +18,7 @@ const reducer = createReducer(
                 return [c.geonameid, c];
             })).values()
         ],
-        loading: false,
+        callState: ELoadingState.LOADED
     })),
     on(citiesActions.failed, (state, {payload: {errorMsg}}) => ({
         ...state,
