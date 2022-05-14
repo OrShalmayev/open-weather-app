@@ -1,65 +1,27 @@
+import { HttpParams } from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {AccountApi} from "../api/account.api";
+import { Observable } from 'rxjs';
+import { HttpService } from '../api';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AccountService {
-  timeoutInterval: any;
-  redirectAfterLogin:string = '/';
+    private readonly controllerApi:string = "weather";
 
-    constructor(private api: AccountApi) {
+    constructor(private httpService:HttpService) { }
+
+    getCityWeatherByName(data:{query:string}):Observable<any> {
+        const {query} = data;
+        const params = new HttpParams({ fromObject: { q: query } });
+
+        return this.doGet({params});
     }
 
-    login(data: FormData) {
-        return this.api.login(data);
-    }
-
-    register(data: any) {
-        return this.api.register(data);
-    }
-
-    check(type: string) {
-        return this.api.check(type);
-    }
-
-    setTokenInLocalStorage(token: string) {
-        localStorage.setItem('token', token);
-    }
-
-    getUserFromLocalStorage() {
-        // const token = window.localStorage.getItem('token');
-        // if (!token) {
-        //     return null;
-        // }
-        // const decodedToken: any = jwt_decode(token);
-        // const expirationDate = new Date(decodedToken.exp * 1000);
-        // const user = new User(
-        //     decodedToken.username,
-        //     token,
-        //     expirationDate,
-        //     decodedToken.userId,
-        //     decodedToken?.roles.split(", "),
-        // );
-        // this.runTimeoutInterval(user);
-        // return user;
-    }
-
-    runTimeoutInterval(user: User) {
-        const todayDate = new Date().getTime();
-        const expirationDate = new Date(user.expireDate).getTime();
-        const timeInterval = expirationDate - todayDate;
-
-        // this.timeoutInterval = setTimeout(() => {
-        //     this.store.dispatch(autoLogout());
-        // }, timeInterval);
-    }
-
-    logout() {
-        localStorage.clear();
-        // if (this.timeoutInterval) {
-        //     clearTimeout(this.timeoutInterval);
-        //     this.timeoutInterval = null;
-        // }
+    private doGet<T>(data:{url?: string, params?: HttpParams}): Observable<T> {
+        const url = data?.url || '';
+        const params = data?.params || new HttpParams();
+        
+        return this.httpService.get({endpoint:`${this.controllerApi}${ url }`, params});
     }
 }

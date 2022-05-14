@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpEvent, HttpHeaders, HttpParams} from "@angular/common/http";
 import {environment} from "../../../../../environments/environment";
 import {Observable} from "rxjs";
 
@@ -12,8 +12,17 @@ export class HttpService {
         return environment.apiURL;
     }
 
-    get<T>(endpoint: string, options?: any) {
-        return this.http.get<T>(`${this.apiUrl}/${endpoint}`, options);
+    get(data:{endpoint: string, options?: any, params?: HttpParams}): Observable<any>{
+        const {endpoint} = data;
+        const options:any = data?.options || {};
+
+        const params:HttpParams = data?.params || new HttpParams();
+        params.append('appid', environment.apiKey);
+
+        return this.http.get(
+            `${this.apiUrl}/${endpoint}`, 
+            {...options, params}
+        );
     }
 
     post<T>(endpoint: string, data: any, options?: any): Observable<any> {
