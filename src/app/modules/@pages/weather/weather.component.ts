@@ -28,7 +28,7 @@ export class WeatherComponent implements OnInit {
             );
     }
 
-    handleGetByGeo() {
+    private handleGetByGeo() {
         navigator.geolocation.getCurrentPosition((position) => {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
