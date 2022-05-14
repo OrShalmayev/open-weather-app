@@ -1,8 +1,8 @@
-import {TCityTypeaheadItems} from "../../modules/shared/components/cities-typeahead/models";
+import {TCityItems} from "../../modules/shared/models";
 import {ELoadingState, TCallState} from "../../modules/@core/utility/state-management.helper";
 
 export interface ICitiesState {
-    cities: TCityTypeaheadItems;
+    cities: TCityItems;
     callState: TCallState,
 }
 

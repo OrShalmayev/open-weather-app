@@ -1,10 +1,10 @@
-import {ICityTypeaheadItem} from "../../modules/shared/components/cities-typeahead/models";
+import {ICityItem} from "../../modules/shared/models";
 import {createHTTPActions} from "../../modules/@core/utility";
 import {EFeatures} from "../../modules/@core/enums/features.enum";
 
 const [load, success, failed, clear] = createHTTPActions<
     { query: string },
-    { cities: ICityTypeaheadItem[] },
+    { cities: ICityItem[] },
     { errorMsg: string }
     >(`[${EFeatures.Cities}] Load`);
 

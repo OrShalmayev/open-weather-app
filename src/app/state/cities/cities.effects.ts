@@ -6,7 +6,7 @@ import {EMPTY, iif, of} from "rxjs";
 import {catchError, map, switchMap, withLatestFrom} from "rxjs/operators";
 import {citiesActions} from './cities.actions';
 import * as fromCitiesSelectors from './cities.selectors';
-import {TCityTypeaheadItems} from "../../modules/shared/components/cities-typeahead/models";
+import {TCityItems} from "../../modules/shared/models";
 import * as jsSearch from 'js-search';
 import {ICitiesState} from "./cities.types";
 import {CitiesService} from "../../modules/@core/backend/services/cities.service";
@@ -25,13 +25,13 @@ export class CityEffect {
             ofType(citiesActions.load),
             withLatestFrom(this.store.select(fromCitiesSelectors.selectCitiesList)),
             switchMap(([{payload: {query}}, inStoreCities]) => {
-                let citiesFound: TCityTypeaheadItems = [];
+                let citiesFound: TCityItems = [];
                 if (inStoreCities?.length > 0) {
                     const search = new jsSearch.Search('geonameid');
                     search.addIndex('country');
                     search.addIndex('name');
                     search.addDocuments(inStoreCities);
-                    citiesFound = search.search(query) as TCityTypeaheadItems;
+                    citiesFound = search.search(query) as TCityItems;
                 }
                 return iif(() => citiesFound?.length > 0, of(citiesFound), this.cityService.getCities(query));
             }),
@@ -39,7 +39,7 @@ export class CityEffect {
                 this.store.dispatch(citiesActions.failed());
                 return EMPTY;
             }),
-            map((cities: TCityTypeaheadItems) => {
+            map((cities: TCityItems) => {
                 return citiesActions.success({cities});
             }),
         ),

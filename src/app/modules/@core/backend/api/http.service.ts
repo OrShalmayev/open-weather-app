@@ -3,7 +3,7 @@ import {HttpClient, HttpEvent, HttpHeaders, HttpParams} from "@angular/common/ht
 import {environment} from "../../../../../environments/environment";
 import {Observable} from "rxjs";
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class HttpService {
     constructor(private http: HttpClient) {
     }
@@ -16,12 +16,12 @@ export class HttpService {
         const {endpoint} = data;
         const options:any = data?.options || {};
 
-        const params:HttpParams = data?.params || new HttpParams();
-        params.append('appid', environment.apiKey);
+        let params:HttpParams = data?.params || new HttpParams();
+        params = params.append('appid', environment.apiKey);
 
         return this.http.get(
-            `${this.apiUrl}/${endpoint}`, 
-            {...options, params}
+            `${this.apiUrl}${endpoint}`,
+            {params}
         );
     }
 

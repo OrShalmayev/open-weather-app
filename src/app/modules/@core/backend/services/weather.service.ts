@@ -10,7 +10,7 @@ import {EApiControllers} from "../../enums";
 export class WeatherService {
     constructor(private httpService:HttpService) { }
 
-    getCityWeatherByName(data:{query:string}):Observable<any> {
+    getCityWeatherByQuery(data:{query:string}):Observable<any> {
         const {query} = data;
         const params = new HttpParams({ fromObject: { q: query } });
 

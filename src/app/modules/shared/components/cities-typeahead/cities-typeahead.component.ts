@@ -4,9 +4,10 @@ import {FormControl, Validators} from "@angular/forms";
 import {debounceTime, distinctUntilChanged, takeUntil} from "rxjs/operators";
 import {Store} from "@ngrx/store";
 import {citiesActions} from "../../../../state/cities/cities.actions";
-import {TCityTypeaheadItems} from "./models";
+import {ICityItem, TCityItems} from "../../models";
 import * as fromCitiesSelectors from '../../../../state/cities/cities.selectors';
 import {onlyEnglishAndSpaceValidator} from "../../../@core/utility/validators";
+import {selectedCitiesActions} from "../../../../state/selected-cities";
 
 @Component({
     selector: 'shared-cities-typeahead',
@@ -23,9 +24,9 @@ import {onlyEnglishAndSpaceValidator} from "../../../@core/utility/validators";
 				>
 				<mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
 					<mat-option
+						(click)="doSearch(city)"
 						*ngFor="let city of (cities$|async)" [value]="city?.name"
 					>
-						<!--						(click)="doSearch()"-->
 
 						{{ city.name }}, {{city?.country}}
 					</mat-option>
@@ -39,7 +40,7 @@ import {onlyEnglishAndSpaceValidator} from "../../../@core/utility/validators";
 export class CitiesTypeaheadComponent implements OnInit {
     private destroyed$: Subject<void> = new Subject<void>();
     searchControlWithAutocomplete!: FormControl;
-    cities$!: Observable<TCityTypeaheadItems>;
+    cities$!: Observable<TCityItems>;
 
     constructor(
         private store: Store
@@ -53,9 +54,14 @@ export class CitiesTypeaheadComponent implements OnInit {
         this.cities$ = this.store.select(fromCitiesSelectors.selectCitiesList);
     }
 
+    doSearch(city:ICityItem) {
+        this.store.dispatch(
+            selectedCitiesActions.load({query:city.name})
+        );
+    }
 
     private initializeControl() {
-        this.searchControlWithAutocomplete = new FormControl(undefined, [Validators.required, Validators.min(3), onlyEnglishAndSpaceValidator()]);
+        this.searchControlWithAutocomplete = new FormControl(undefined, [Validators.required, Validators.min(1), onlyEnglishAndSpaceValidator()]);
     }
 
     private handleValueChange() {
