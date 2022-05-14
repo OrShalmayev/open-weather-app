@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable, Subject} from "rxjs";
 import {FormControl, Validators} from "@angular/forms";
-import {debounceTime, distinctUntilChanged, takeUntil} from "rxjs/operators";
+import {debounceTime, distinctUntilChanged, map, takeUntil} from "rxjs/operators";
 import {Store} from "@ngrx/store";
 import {citiesActions} from "../../../../state/cities/cities.actions";
 import {ICityItem, TCityItems} from "../../models";
@@ -13,10 +13,9 @@ import {selectedCitiesActions} from "../../../../state/selected-cities";
     selector: 'shared-cities-typeahead',
     template: `
 		<div class="search-container mb-3">
-
-			<div class="form-group">
+			<mat-form-field appearance="fill">
+				<mat-label>Search city</mat-label>
 				<input
-					placeholder="Search city"
 					type="text"
 					matInput
 					[formControl]="searchControlWithAutocomplete"
@@ -31,8 +30,8 @@ import {selectedCitiesActions} from "../../../../state/selected-cities";
 						{{ city.name }}, {{city?.country}}
 					</mat-option>
 				</mat-autocomplete>
-				<app-error [HTMLType]="'MATERIAL'" [controlName]="searchControlWithAutocomplete"></app-error>
-			</div>
+			</mat-form-field>
+			<app-error [HTMLType]="'MATERIAL'" [controlName]="searchControlWithAutocomplete"></app-error>
 		</div>
     `,
     styles: []
@@ -51,12 +50,23 @@ export class CitiesTypeaheadComponent implements OnInit {
         this.initializeControl();
         this.handleValueChange();
 
-        this.cities$ = this.store.select(fromCitiesSelectors.selectCitiesList);
+        this.cities$ = this.store.select(fromCitiesSelectors.selectCitiesList)
+            .pipe(
+                map(cities => {
+                    return cities.filter(c => {
+                        const nameLower = c.name?.toLowerCase();
+                        const countryLower = c.country.toLowerCase();
+                        const controlVal = this.searchControlWithAutocomplete.value?.toLowerCase();
+                        return nameLower.includes(controlVal) || countryLower.includes(controlVal);
+                    });
+                }),
+                takeUntil(this.destroyed$)
+            );
     }
 
-    doSearch(city:ICityItem) {
+    doSearch(city: ICityItem) {
         this.store.dispatch(
-            selectedCitiesActions.load({query:city.name})
+            selectedCitiesActions.load({query: city.name})
         );
     }
 
