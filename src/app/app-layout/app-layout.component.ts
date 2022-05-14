@@ -10,11 +10,9 @@ import {RouterHelperService} from "../modules/@core/services";
 })
 export class AppLayoutComponent {
     loadingRoute$!: Observable<boolean>;
-    test: any;
 
     constructor(
         private routerHelper: RouterHelperService,
-
     ) {
     }
 

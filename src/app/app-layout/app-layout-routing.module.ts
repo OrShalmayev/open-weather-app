@@ -9,14 +9,10 @@ const routes: Routes = [
         component: AppLayoutComponent,
         children: [
             {
-                path: 'pages',
+                path: '',
                 loadChildren: () =>
                     import('../modules/@pages/pages.module').then(m => m.PagesModule),
             },
-            {
-                path: '',
-                component: HomeComponent
-            }
         ]
     },
 ];

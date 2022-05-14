@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Subject} from "rxjs";
 
 @Component({
     selector: 'app-weather',
@@ -6,6 +7,7 @@ import {Component, OnInit} from '@angular/core';
     styleUrls: ['./weather.component.scss']
 })
 export class WeatherComponent implements OnInit {
+    destroyed$: Subject<void> = new Subject<void>();
 
     constructor() {
     }
@@ -13,4 +15,8 @@ export class WeatherComponent implements OnInit {
     ngOnInit(): void {
     }
 
+    ngOnDestroy() {
+        this.destroyed$.next();
+        this.destroyed$.complete();
+    }
 }
