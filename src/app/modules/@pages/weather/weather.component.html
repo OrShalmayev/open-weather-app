@@ -1,10 +1,16 @@
 <shared-cities-typeahead></shared-cities-typeahead>
-<ng-container *ngFor="let cityWeather of (selectedCities$ | async) ">
-	<ng-container [entityCallState]="cityWeather.value" #state="callState"></ng-container>
-	<ng-container *ngIf="state?.state?.loading; else notLoading">
-		<shared-loader></shared-loader>
+<ng-container *ngLet="(selectedCities$ | async) as selectedCities">
+	<ng-container *ngFor="let cityWeather of selectedCities">
+		<ng-container [entityCallState]="cityWeather.value" #state="callState"></ng-container>
+
+		<ng-container *ngIf="!state?.state?.loading; else loadingTemplate">
+			<current-weather [cityWeather]="cityWeather">
+				<detailed-weather [weather]="cityWeather.weather"></detailed-weather>
+			</current-weather>
+		</ng-container>
+
+		<ng-template #loadingTemplate>
+			<shared-loader></shared-loader>
+		</ng-template>
 	</ng-container>
-	<ng-template #notLoading>
-		<current-weather [cityWeather]="cityWeather"></current-weather>
-	</ng-template>
 </ng-container>

@@ -3,9 +3,7 @@
 
 		<h2>{{ cityName }}</h2>
 
-		<detailed-weather
-			[weather]="cityWeather.weather"
-		></detailed-weather>
+		<ng-content select="detailed-weather"></ng-content>
 
 		<div class="card-actions mt-5">
 			<button mat-stroked-button color="warn" (click)="remove(cityWeather)">Remove</button>
